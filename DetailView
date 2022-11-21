@@ -1,0 +1,38 @@
+import SwiftUI
+
+struct DetailView: View {
+    var user: User 
+    var formattedDate: String {
+        user.registered.formatted(date: .abbreviated, time: .shortened)
+    }
+    
+    var body: some View {
+        List {
+            Section("Information") {
+                Text(user.isActive ? "Currently online" : "Currently offline")
+                    .foregroundColor(user.isActive ? .green : .gray)
+                Text("\(user.age) years old")
+                Text("Works for \(user.company)")
+                Text(user.email)
+                Text(user.address)
+                Text("Registered on \(formattedDate)")
+            }
+            
+            Section("About \(user.name)") {
+                Text(user.about)
+                }
+            
+            Section("Friends") {
+                ForEach(user.friends) {
+                    Text($0.name)
+                }
+            }
+            
+            Section("Tags") {
+                ForEach(user.tags, id: \.self) { 
+                    Text($0)
+                }
+            }
+    }
+}
+}
